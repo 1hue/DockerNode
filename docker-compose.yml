@@ -12,7 +12,7 @@ services:
     # env_file:
     #   - .env
     command: >
-      bash -c "npm i && npm run dev:docker"
+      bash -c "pnpm i && pnpm dev:docker"
 
 volumes:
   node_modules:
