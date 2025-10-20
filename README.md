@@ -101,9 +101,12 @@ See 💡 [Docker Docs](https://docs.docker.com/compose/how-tos/networking/)
 ## Useful docker commands
 
 ```sh
+# List
 docker ps -a
 docker volume ls
 docker image ls
+
+# Clean
 docker builder prune --all --force
 docker system prune --all --volumes --force
 ```
