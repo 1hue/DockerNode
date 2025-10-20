@@ -45,6 +45,12 @@ chmod +x ./dev
 
 This will allow us to avoid typing the verbose `docker compose yada yada yada` every time we want to spin up our dev environment.
 
+For the first run, we must enter shell in order to first set up NPM/PNPM/Yarn/Bun (e.g. install vite as a dep):
+
+```sh
+./dev bash
+```
+
 <br/>
 
 ## Environment variables

@@ -1,5 +1,5 @@
 services:
-  docker-node:
+  node:
     build: .
     stdin_open: true
     tty: true
@@ -9,6 +9,8 @@ services:
       - usr_local_share:/usr/local/share/
     ports:
       - "5173:5173" # host:container
+    environment:
+      - NODE_ENV=development
     # env_file:
     #   - .env
     command: >

@@ -15,8 +15,6 @@ RUN apt-get update && \
 SHELL ["/bin/bash", "-c"]
 ENV SHELL=bash
 
-# Update in the prod version of Dockerfile
-ENV NODE_ENV=development
 WORKDIR /app
 
 # Remove all of the below if not using PNPM

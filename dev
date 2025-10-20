@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SERVICE=node # Corresponds to docker-compose.yml:2
+
 if [ $# -eq 0 ]; then
   echo -e "\n 💡 Pass \`bash\` as first arg to enter shell\n"
   docker compose up
@@ -7,10 +9,10 @@ elif [ "$1" = "stop" ]; then
   docker compose down
 elif [ "$1" = "logs" ]; then
   docker compose logs -f
-elif [ "$(docker ps -q -f name=docker-node)" ]; then
+elif [ "$(docker ps -q -f name=$SERVICE)" ]; then
   # If the container is running, use exec
-  docker compose exec docker-node "$@"
+  docker compose exec $SERVICE "$@"
 else
   # If the container is not running, use run
-  docker compose run --service-ports --rm --build --remove-orphans docker-node "$@"
+  docker compose run --service-ports --rm --build --remove-orphans $SERVICE "$@"
 fi
