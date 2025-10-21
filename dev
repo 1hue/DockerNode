@@ -9,7 +9,7 @@ elif [ "$1" = "stop" ]; then
   docker compose down
 elif [ "$1" = "logs" ]; then
   docker compose logs -f
-elif [ "$(docker ps -q -f name=$SERVICE)" ]; then
+elif [ "$(docker compose ps -q $SERVICE)" ]; then
   # If the container is running, use exec
   docker compose exec $SERVICE "$@"
 else

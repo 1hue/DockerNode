@@ -109,6 +109,8 @@ docker image ls
 # Clean
 docker builder prune --all --force
 docker system prune --all --volumes --force
+# Caution: deletes volumes permanently
+docker compose down --volumes
 ```
 
 <br/>
