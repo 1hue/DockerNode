@@ -14,7 +14,7 @@ services:
     # env_file:
     #   - .env
     command: >
-      bash -c "pnpm i && pnpm dev:docker"
+      sh -c "pnpm i && pnpm dev:docker"
 
 volumes:
   pnpm:

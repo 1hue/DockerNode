@@ -3,7 +3,7 @@
 SERVICE=node # Corresponds to docker-compose.yml:2
 
 if [ $# -eq 0 ]; then
-  echo -e "\n 💡 Pass \`bash\` as first arg to enter shell\n"
+  echo -e "\n 💡 Pass \`sh\` as first arg to enter shell\n"
   docker compose up
 elif [ "$1" = "stop" ]; then
   docker compose down
