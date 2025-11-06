@@ -1,12 +1,12 @@
 services:
   node:
+    container_name: node
     build: .
     stdin_open: true
     tty: true
     volumes:
       - .:/app # host:container
-      - node_modules:/usr/local/lib/node_modules
-      - usr_local_share:/usr/local/share/
+      - pnpm:/pnpm/store
     ports:
       - "5173:5173" # host:container
     environment:
@@ -17,5 +17,4 @@ services:
       bash -c "pnpm i && pnpm dev:docker"
 
 volumes:
-  node_modules:
-  usr_local_share:
+  pnpm:

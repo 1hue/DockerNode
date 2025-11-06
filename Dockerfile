@@ -1,32 +1,32 @@
-# Slimified versions and alpine don't include ca-certificates for apt
-FROM node:24-bookworm
+FROM node:25-alpine AS base
 
-RUN for file in /etc/apt/sources.list.d/*; do \
-      sed -i 's/http:/https:/g' "$file"; \
-    done
+# Ensure HTTPS use in Alpine Package Keeper (APK)
+RUN awk '/http:\/\// {print "ERROR: Non-HTTPS repo:", $0; exit 1}' /etc/apk/repositories
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Verify base image integrity
+RUN apk --no-cache info ca-certificates && \
+    test -d /etc/apk/keys/ && \
+    test $(ls /etc/apk/keys/*.pub | wc -l) -gt 0
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update
 
-SHELL ["/bin/bash", "-c"]
-ENV SHELL=bash
+RUN apk audit || { \
+    echo "ERROR: Package integrity check failed!" >&2; exit 1; \
+}
 
-WORKDIR /app
+# Ensure SSL defaults before doing anything with NPM
+RUN npm config set registry https://registry.npmjs.org/ && \
+    npm config set strict-ssl true && \
+    npm config get registry | grep -q "^https://" || { \
+        echo "ERROR: NPM https registry check failed!" >&2; exit 1; \
+    }
 
-# Remove all of the below if not using PNPM
 
-ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-ENV PNPM_HOME=/usr/local/share/.pnpm-store
+FROM base AS pnpm
+
+WORKDIR /usr/src/app
+
+ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 
-RUN mkdir -p $PNPM_HOME
-
-RUN npm install -g npm@latest corepack@latest
-RUN corepack enable pnpm
-RUN corepack use pnpm@latest
-
-RUN pnpm i -g npm-check-updates
+RUN npm install -g pnpm@latest-10
