@@ -5,7 +5,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - .:/app # host:container
+      - .:/usr/src/app # host:container
       - pnpm:/pnpm/store
     ports:
       - "5173:5173" # host:container
